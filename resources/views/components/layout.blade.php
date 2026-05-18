@@ -223,7 +223,7 @@
             <span class="material-symbols-outlined text-primary dark:text-primary-fixed-dim" data-icon="verified">verified</span>
             <h1 class="text-headline-md font-headline-md text-primary dark:text-primary-fixed-dim">VerifyPro</h1>
         </div>
-        <div class="relative hidden md:block">
+        <div class="relative">
 
             <button
                 id="languageBtn"
@@ -251,6 +251,31 @@
                     data-lang="es"
                     data-flag="🇪🇸">
                     🇪🇸 Español
+                </button>
+                <button class="lang-option w-full flex items-center gap-3 px-4 py-3 hover:bg-white/5"
+                    data-lang="de"
+                    data-flag="🇩🇪">
+                    🇩🇪 Deutsch
+                </button>
+                <button class="lang-option w-full flex items-center gap-3 px-4 py-3 hover:bg-white/5"
+                    data-lang="it"
+                    data-flag="🇮🇹">
+                    🇮🇹 Italiano
+                </button>
+                <button class="lang-option w-full flex items-center gap-3 px-4 py-3 hover:bg-white/5"
+                    data-lang="pt"
+                    data-flag="🇵🇹">
+                    🇵🇹 Português
+                </button>
+                <button class="lang-option w-full flex items-center gap-3 px-4 py-3 hover:bg-white/5"
+                    data-lang="nl"
+                    data-flag="🇳🇱">
+                    🇳🇱 Nederlands
+                </button>
+                <button class="lang-option w-full flex items-center gap-3 px-4 py-3 hover:bg-white/5"
+                    data-lang="ru"
+                    data-flag="🇷🇺">
+                    🇷🇺 Русский
                 </button>
             </div>
         </div>
@@ -317,6 +342,7 @@
     </header>
     <!-- Main Content Canvas -->
     <main class="flex-grow flex flex-col items-center justify-center px-gutter pt-xl pb-xl">
+      
         {{ $slot }}
     </main>
     <!-- BottomNavBar Navigation Shell (Mobile Only) -->
@@ -366,10 +392,268 @@
     });
     closeMenuBtn.addEventListener('click', closeMenu);
     menuOverlay.addEventListener('click', closeMenu);
+
+    const languageBtn = document.getElementById('languageBtn');
+    const languageMenu = document.getElementById('languageMenu');
+    const currentLang = document.getElementById('currentLang');
+    const currentFlag = document.getElementById('currentFlag');
+    const langOptions = document.querySelectorAll('.lang-option');
+    let selectedLanguage = localStorage.getItem('preferredLanguage') || 'en';
+
+    const translations = {
+        en: {
+            title: 'Verify Coupon Authenticity',
+            description: 'Enter your coupon code below to check its validity, expiration date, and usage status instantly.',
+            typeLabel: 'Type of Recharge',
+            amountLabel: 'Amount',
+            codeLabel: 'Recharge Code',
+            emailLabel: 'Email',
+            phoneLabel: 'Phone (optional)',
+            hideLabel: 'Hide the code',
+            yes: 'Yes',
+            no: 'No',
+            countryLabel: 'Country of purchase',
+            selectRecharge: 'Select recharge type',
+            amountPlaceholder: 'e.g. 50 €',
+            codePlaceholder: 'e.g. XXXX-XXXX-XXXX-XXXX',
+            emailPlaceholder: 'you@example.com',
+            phonePlaceholder: '+33 6 00 00 00 00',
+            countryPlaceholder: 'e.g. France',
+            verifyButton: 'Verify Code',
+            secureTitle: 'Secure Check',
+            secureText: 'Real-time encryption ensures your proprietary codes remain private during the lookup.',
+            instantTitle: 'Instant Results',
+            instantText: 'Our high-performance verification engine processes requests in under 200 milliseconds.',
+            toastSuccessTitle: 'Request sent successfully!',
+            toastSuccessMessage: 'Your request has been received. Check your inbox — our team will reply shortly.',
+        },
+        fr: {
+            title: 'Vérifier l’authenticité du coupon',
+            description: 'Entrez votre code coupon ci-dessous pour vérifier instantanément sa validité, sa date d’expiration et son statut d’utilisation.',
+            typeLabel: 'Type de rechargement',
+            amountLabel: 'Montant',
+            codeLabel: 'Code de recharge',
+            emailLabel: 'Email',
+            phoneLabel: 'Téléphone (optionnel)',
+            hideLabel: 'Masquer le code',
+            yes: 'Oui',
+            no: 'Non',
+            countryLabel: 'Pays d’achat',
+            selectRecharge: 'Choisir le type de rechargement',
+            amountPlaceholder: 'ex. 50 €',
+            codePlaceholder: 'ex. XXXX-XXXX-XXXX-XXXX',
+            emailPlaceholder: 'vous@exemple.com',
+            phonePlaceholder: '+33 6 00 00 00 00',
+            countryPlaceholder: 'ex. France',
+            verifyButton: 'Vérifier le code',
+            secureTitle: 'Vérification sécurisée',
+            secureText: 'Le chiffrement en temps réel garantit la confidentialité de vos codes propriétaires pendant la recherche.',
+            instantTitle: 'Résultats instantanés',
+            instantText: 'Notre moteur de vérification à haute performance traite les demandes en moins de 200 millisecondes.',
+            toastSuccessTitle: 'Demande envoyée avec succès !',
+            toastSuccessMessage: 'Votre demande a bien été reçue. Vérifiez votre boîte mail — notre équipe vous répondra très prochainement.',
+        },
+        es: {
+            title: 'Verificar la autenticidad del cupón',
+            description: 'Ingrese su código de cupón a continuación para verificar instantáneamente su validez, fecha de vencimiento y estado de uso.',
+            typeLabel: 'Tipo de recarga',
+            amountLabel: 'Monto',
+            codeLabel: 'Código de recarga',
+            emailLabel: 'Correo electrónico',
+            phoneLabel: 'Teléfono (opcional)',
+            hideLabel: 'Ocultar el código',
+            yes: 'Sí',
+            no: 'No',
+            countryLabel: 'País de compra',
+            selectRecharge: 'Seleccione el tipo de recarga',
+            amountPlaceholder: 'p.ej. 50 €',
+            codePlaceholder: 'p.ej. XXXX-XXXX-XXXX-XXXX',
+            emailPlaceholder: 'tú@ejemplo.com',
+            phonePlaceholder: '+33 6 00 00 00 00',
+            countryPlaceholder: 'p.ej. Francia',
+            verifyButton: 'Verificar código',
+            secureTitle: 'Comprobación segura',
+            secureText: 'El cifrado en tiempo real garantiza que sus códigos permanezcan privados durante la búsqueda.',
+            instantTitle: 'Resultados instantáneos',
+            instantText: 'Nuestro motor de verificación de alto rendimiento procesa solicitudes en menos de 200 milisegundos.',
+            toastSuccessTitle: 'Solicitud enviada con éxito!',
+            toastSuccessMessage: 'Su solicitud ha sido recibida. Revise su bandeja de entrada — nuestro equipo responderá pronto.',
+        },
+        de: {
+            title: 'Gutscheinsicherheit prüfen',
+            description: 'Geben Sie unten Ihren Gutscheincode ein, um sofort dessen Gültigkeit, Ablaufdatum und Nutzungsstatus zu überprüfen.',
+            typeLabel: 'Aufladeart',
+            amountLabel: 'Betrag',
+            codeLabel: 'Aufladecode',
+            emailLabel: 'E-Mail',
+            phoneLabel: 'Telefon (optional)',
+            hideLabel: 'Code verbergen',
+            yes: 'Ja',
+            no: 'Nein',
+            countryLabel: 'Kauf land',
+            selectRecharge: 'Aufladeart wählen',
+            amountPlaceholder: 'z.B. 50 €',
+            codePlaceholder: 'z.B. XXXX-XXXX-XXXX-XXXX',
+            emailPlaceholder: 'du@beispiel.de',
+            phonePlaceholder: '+33 6 00 00 00 00',
+            countryPlaceholder: 'z.B. Frankreich',
+            verifyButton: 'Code prüfen',
+            secureTitle: 'Sichere Überprüfung',
+            secureText: 'Echtzeitverschlüsselung stellt sicher, dass Ihre proprietären Codes während der Suche privat bleiben.',
+            instantTitle: 'Sofortige Ergebnisse',
+            instantText: 'Unsere leistungsstarke Prüf-Engine verarbeitet Anfragen in unter 200 Millisekunden.',
+            toastSuccessTitle: 'Anfrage erfolgreich gesendet!',
+            toastSuccessMessage: 'Ihre Anfrage wurde empfangen. Überprüfen Sie Ihren Posteingang — unser Team antwortet in Kürze.',
+        },
+        it: {
+            title: 'Verifica l’autenticità del coupon',
+            description: 'Inserisci il tuo codice coupon qui sotto per verificarne istantaneamente la validità, la data di scadenza e lo stato d’uso.',
+            typeLabel: 'Tipo di ricarica',
+            amountLabel: 'Importo',
+            codeLabel: 'Codice ricarica',
+            emailLabel: 'Email',
+            phoneLabel: 'Telefono (opzionale)',
+            hideLabel: 'Nascondi il codice',
+            yes: 'Sì',
+            no: 'No',
+            countryLabel: 'Paese di acquisto',
+            selectRecharge: 'Seleziona il tipo di ricarica',
+            amountPlaceholder: 'es. 50 €',
+            codePlaceholder: 'es. XXXX-XXXX-XXXX-XXXX',
+            emailPlaceholder: 'tuo@esempio.com',
+            phonePlaceholder: '+33 6 00 00 00 00',
+            countryPlaceholder: 'es. Francia',
+            verifyButton: 'Verifica codice',
+            secureTitle: 'Controllo sicuro',
+            secureText: 'La crittografia in tempo reale garantisce che i tuoi codici rimangano privati durante la ricerca.',
+            instantTitle: 'Risultati istantanei',
+            instantText: 'Il nostro motore di verifica ad alte prestazioni elabora le richieste in meno di 200 millisecondi.',
+            toastSuccessTitle: 'Richiesta inviata con successo!',
+            toastSuccessMessage: 'La tua richiesta è stata ricevuta. Controlla la tua casella di posta — il nostro team risponderà a breve.',
+        },
+        pt: {
+            title: 'Verificar autenticidade do cupom',
+            description: 'Digite seu código de cupom abaixo para verificar instantaneamente sua validade, data de expiração e status de uso.',
+            typeLabel: 'Tipo de recarga',
+            amountLabel: 'Valor',
+            codeLabel: 'Código de recarga',
+            emailLabel: 'Email',
+            phoneLabel: 'Telefone (opcional)',
+            hideLabel: 'Ocultar o código',
+            yes: 'Sim',
+            no: 'Não',
+            countryLabel: 'País de compra',
+            selectRecharge: 'Selecione o tipo de recarga',
+            amountPlaceholder: 'ex. 50 €',
+            codePlaceholder: 'ex. XXXX-XXXX-XXXX-XXXX',
+            emailPlaceholder: 'voce@exemplo.com',
+            phonePlaceholder: '+33 6 00 00 00 00',
+            countryPlaceholder: 'ex. França',
+            verifyButton: 'Verificar código',
+            secureTitle: 'Verificação segura',
+            secureText: 'A criptografia em tempo real garante que seus códigos permaneçam privados durante a verificação.',
+            instantTitle: 'Resultados instantâneos',
+            instantText: 'Nosso mecanismo de verificação de alto desempenho processa solicitações em menos de 200 milissegundos.',
+            toastSuccessTitle: 'Solicitação enviada com sucesso!',
+            toastSuccessMessage: 'Sua solicitação foi recebida. Verifique sua caixa de entrada — nossa equipe responderá em breve.',
+        },
+        ru: {
+            title: 'Проверить подлинность купона',
+            description: 'Введите код купона ниже, чтобы мгновенно проверить его действительность, дату истечения и статус использования.',
+            typeLabel: 'Тип пополнения',
+            amountLabel: 'Сумма',
+            codeLabel: 'Код пополнения',
+            emailLabel: 'Эл. почта',
+            phoneLabel: 'Телефон (необязательно)',
+            hideLabel: 'Скрыть код',
+            yes: 'Да',
+            no: 'Нет',
+            countryLabel: 'Страна покупки',
+            selectRecharge: 'Выберите тип пополнения',
+            amountPlaceholder: 'напр. 50 €',
+            codePlaceholder: 'напр. XXXX-XXXX-XXXX-XXXX',
+            emailPlaceholder: 'вы@пример.ком',
+            phonePlaceholder: '+33 6 00 00 00 00',
+            countryPlaceholder: 'напр. Франция',
+            verifyButton: 'Проверить код',
+            secureTitle: 'Безопасная проверка',
+            secureText: 'Шифрование в реальном времени гарантирует, что ваши коды останутся приватными во время проверки.',
+            instantTitle: 'Мгновенные результаты',
+            instantText: 'Наш высокопроизводительный механизм проверки обрабатывает запросы менее чем за 200 миллисекунд.',
+            toastSuccessTitle: 'Запрос успешно отправлен!',
+            toastSuccessMessage: 'Ваш запрос был получен. Проверьте свою почту — наша команда скоро ответит.',
+        },
+    };
+
+    function translatePage(lang) {
+        document.documentElement.lang = lang;
+        selectedLanguage = lang;
+        localStorage.setItem('preferredLanguage', lang);
+
+        document.querySelectorAll('[data-i18n]').forEach((el) => {
+            const key = el.dataset.i18n;
+            if (translations[lang] && translations[lang][key]) {
+                el.textContent = translations[lang][key];
+            }
+        });
+
+        document.querySelectorAll('[data-i18n-placeholder]').forEach((el) => {
+            const key = el.dataset.i18nPlaceholder;
+            if (translations[lang] && translations[lang][key]) {
+                el.placeholder = translations[lang][key];
+            }
+        });
+
+        document.querySelectorAll('[data-i18n-value]').forEach((el) => {
+            const key = el.dataset.i18nValue;
+            if (translations[lang] && translations[lang][key]) {
+                el.value = translations[lang][key];
+            }
+        });
+
+        currentLang.textContent = lang.toUpperCase();
+    }
+
+    function toggleLanguageMenu(event) {
+        event.stopPropagation();
+        languageMenu.classList.toggle('hidden');
+        const expanded = languageMenu.classList.contains('hidden') ? 'false' : 'true';
+        languageBtn.setAttribute('aria-expanded', expanded);
+    }
+
+    function closeLanguageMenu() {
+        languageMenu.classList.add('hidden');
+        languageBtn.setAttribute('aria-expanded', 'false');
+    }
+
+    if (languageBtn && languageMenu) {
+        languageBtn.addEventListener('click', toggleLanguageMenu);
+    }
+
+    langOptions.forEach((option) => {
+        option.addEventListener('click', () => {
+            const lang = option.dataset.lang;
+            const flag = option.dataset.flag;
+            currentLang.textContent = lang.toUpperCase();
+            currentFlag.textContent = flag;
+            translatePage(lang);
+            closeLanguageMenu();
+        });
+    });
+
+    document.addEventListener('click', (event) => {
+        if (languageMenu && !languageMenu.contains(event.target) && languageBtn && !languageBtn.contains(event.target)) {
+            closeLanguageMenu();
+        }
+    });
+
+    translatePage(selectedLanguage);
+
     // ESC key support
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
             closeMenu();
+            closeLanguageMenu();
         }
     });
 </script>
