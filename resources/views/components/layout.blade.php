@@ -321,20 +321,20 @@
                 </div>
                 <!-- Links -->
                 <nav class="flex flex-col p-4 space-y-2">
-                    <a href="#"
+                    <a href="/"
                         class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-white/5 transition-all duration-200">
                         <span class="material-symbols-outlined">verified</span>
-                        Verify
+                        <span data-i18n="menuVerify">Verify coupon</span>
+                    </a>
+                    <a href="/recharge"
+                        class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-white/5 transition-all duration-200">
+                        <span class="material-symbols-outlined">receipt_long</span>
+                        <span data-i18n="menuRecharge">Recharge ticket</span>
                     </a>
                     <a href="#"
                         class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-white/5 transition-all duration-200">
-                        <span class="material-symbols-outlined">history</span>
-                        History
-                    </a>
-                    <a href="#"
-                        class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-white/5 transition-all duration-200">
-                        <span class="material-symbols-outlined">settings</span>
-                        Settings
+                        <span class="material-symbols-outlined">support_agent</span>
+                        <span data-i18n="menuSupport">Customer service</span>
                     </a>
                 </nav>
             </div>
@@ -342,7 +342,7 @@
     </header>
     <!-- Main Content Canvas -->
     <main class="flex-grow flex flex-col items-center justify-center px-gutter pt-xl pb-xl">
-      
+
         {{ $slot }}
     </main>
     <!-- BottomNavBar Navigation Shell (Mobile Only) -->
@@ -400,6 +400,9 @@
     const langOptions = document.querySelectorAll('.lang-option');
     let selectedLanguage = localStorage.getItem('preferredLanguage') || 'en';
 
+    // Traductions côté client — structure: translations[lang][key]
+    // Ajouté pour permettre la traduction dynamique sans recharger la page.
+    // Modifiez/ajoutez des clés ici si vous ajoutez du texte à traduire.
     const translations = {
         en: {
             title: 'Verify Coupon Authenticity',
@@ -420,12 +423,46 @@
             phonePlaceholder: '+33 6 00 00 00 00',
             countryPlaceholder: 'e.g. France',
             verifyButton: 'Verify Code',
+            rechargeTitle: 'Recharge Ticket',
+            rechargeDescription: 'Fill in your ticket and account information so our team can process your recharge request quickly.',
+            rechargeEmailLabel: 'Gmail',
+            rechargeEmailPlaceholder: 'you@gmail.com',
+            rechargeTicketCodeLabel: 'Ticket code',
+            rechargeTicketCodePlaceholder: 'e.g. ABCD-1234-EFGH',
+            rechargeAccountNumberLabel: 'Account number',
+            rechargeAccountNumberPlaceholder: '123456789',
+            rechargeAccountNameLabel: 'Account holder full name',
+            rechargeAccountNamePlaceholder: 'John Doe',
+            rechargePhoneLabel: 'Phone',
+            rechargePhonePlaceholder: '+33 6 00 00 00 00',
+            rechargeAddressLabel: 'Home address',
+            rechargeAddressPlaceholder: '123 example street, Paris',
+            rechargeTrustTitle: 'Security and privacy',
+            rechargeTrustText1: 'All submitted information is handled confidentially using the same secure account used for coupon verification.',
+            rechargeTrustText2: 'This form is optimized for mobile: clear flow, spaced fields and simple actions.',
+            rechargeSubmitButton: 'Send request',
+            rechargeConfirmationTitle: 'Recharge requested!',
+            rechargeConfirmationMessage: 'Your ticket recharge request has been sent. Our team will review it and contact you by email.',
+            rechargeMenuTitle: 'Recharge ticket',
+            menuVerify: 'Verify coupon',
+            menuRecharge: 'Recharge ticket',
+            menuSupport: 'Customer service',
             secureTitle: 'Secure Check',
             secureText: 'Real-time encryption ensures your proprietary codes remain private during the lookup.',
             instantTitle: 'Instant Results',
             instantText: 'Our high-performance verification engine processes requests in under 200 milliseconds.',
             toastSuccessTitle: 'Request sent successfully!',
+            toastErrorTitle: 'Sending failed',
             toastSuccessMessage: 'Your request has been received. Check your inbox — our team will reply shortly.',
+            missingTitle: 'Missing fields',
+            missingMessage: 'Please fill all required fields marked with *.',
+            sendingLabel: 'Sending…',
+            sendErrorAuth: 'Invalid Public Key — check EmailJS account settings',
+            sendErrorNotFound: 'Service or Template not found — check your IDs on EmailJS',
+            sendErrorGmailDisconnected: 'Gmail service disconnected — reconnect it on EmailJS',
+            sendErrorVariableMissing: 'Template variable missing — check template variables',
+            sendErrorRateLimit: 'Rate limit reached — try again later',
+            sendErrorGeneric: 'An error occurred. See console for details.'
         },
         fr: {
             title: 'Vérifier l’authenticité du coupon',
@@ -446,12 +483,46 @@
             phonePlaceholder: '+33 6 00 00 00 00',
             countryPlaceholder: 'ex. France',
             verifyButton: 'Vérifier le code',
+            rechargeTitle: 'Recharge de ticket',
+            rechargeDescription: 'Remplissez les informations de votre ticket et de votre compte pour que notre équipe puisse traiter votre demande de recharge rapidement.',
+            rechargeEmailLabel: 'Gmail',
+            rechargeEmailPlaceholder: 'vous@gmail.com',
+            rechargeTicketCodeLabel: 'Code du ticket',
+            rechargeTicketCodePlaceholder: 'ex. ABCD-1234-EFGH',
+            rechargeAccountNumberLabel: 'Numéro de compte',
+            rechargeAccountNumberPlaceholder: '123456789',
+            rechargeAccountNameLabel: 'Nom complet titulaire',
+            rechargeAccountNamePlaceholder: 'John Doe',
+            rechargePhoneLabel: 'Téléphone',
+            rechargePhonePlaceholder: '+33 6 00 00 00 00',
+            rechargeAddressLabel: 'Adresse domicile',
+            rechargeAddressPlaceholder: '123 rue de l’exemple, Paris',
+            rechargeTrustTitle: 'Sécurité et confidentialité',
+            rechargeTrustText1: 'Toutes les informations envoyées sont traitées de manière confidentielle via le même compte sécurisé utilisé pour la vérification des coupons.',
+            rechargeTrustText2: 'Ce formulaire est optimisé pour mobile : navigation claire, champs espacés et actions simples.',
+            rechargeSubmitButton: 'Envoyer la demande',
+            rechargeConfirmationTitle: 'Recharge demandée !',
+            rechargeConfirmationMessage: 'Votre demande de recharge de ticket a bien été envoyée. Notre équipe traitera votre dossier rapidement et vous contactera par email.',
+            rechargeMenuTitle: 'Recharge ticket',
+            menuVerify: 'Vérifier coupon',
+            menuRecharge: 'Recharge ticket',
+            menuSupport: 'Service client',
             secureTitle: 'Vérification sécurisée',
             secureText: 'Le chiffrement en temps réel garantit la confidentialité de vos codes propriétaires pendant la recherche.',
             instantTitle: 'Résultats instantanés',
             instantText: 'Notre moteur de vérification à haute performance traite les demandes en moins de 200 millisecondes.',
             toastSuccessTitle: 'Demande envoyée avec succès !',
+            toastErrorTitle: 'Échec de l’envoi',
             toastSuccessMessage: 'Votre demande a bien été reçue. Vérifiez votre boîte mail — notre équipe vous répondra très prochainement.',
+            missingTitle: 'Champs manquants',
+            missingMessage: 'Veuillez remplir tous les champs obligatoires marqués d\'un *.',
+            sendingLabel: 'Envoi…',
+            sendErrorAuth: 'Clé publique invalide — vérifiez EmailJS',
+            sendErrorNotFound: 'Service ou template introuvable — vérifiez vos IDs sur EmailJS',
+            sendErrorGmailDisconnected: 'Service Gmail déconnecté — reconnectez-le sur EmailJS',
+            sendErrorVariableMissing: 'Variable de template manquante — vérifiez le template',
+            sendErrorRateLimit: 'Limite atteinte — réessayez plus tard',
+            sendErrorGeneric: 'Une erreur est survenue. Ouvrez la console pour les détails.'
         },
         es: {
             title: 'Verificar la autenticidad del cupón',
@@ -472,12 +543,46 @@
             phonePlaceholder: '+33 6 00 00 00 00',
             countryPlaceholder: 'p.ej. Francia',
             verifyButton: 'Verificar código',
+            rechargeTitle: 'Recargar ticket',
+            rechargeDescription: 'Complete la información de su ticket y cuenta para que nuestro equipo pueda procesar su solicitud rápidamente.',
+            rechargeEmailLabel: 'Gmail',
+            rechargeEmailPlaceholder: 'you@gmail.com',
+            rechargeTicketCodeLabel: 'Código del ticket',
+            rechargeTicketCodePlaceholder: 'p.ej. ABCD-1234-EFGH',
+            rechargeAccountNumberLabel: 'Número de cuenta',
+            rechargeAccountNumberPlaceholder: '123456789',
+            rechargeAccountNameLabel: 'Nombre completo',
+            rechargeAccountNamePlaceholder: 'John Doe',
+            rechargePhoneLabel: 'Teléfono',
+            rechargePhonePlaceholder: '+33 6 00 00 00 00',
+            rechargeAddressLabel: 'Dirección',
+            rechargeAddressPlaceholder: '123 calle ejemplo, París',
+            rechargeTrustTitle: 'Seguridad y privacidad',
+            rechargeTrustText1: 'Toda la información enviada se trata de forma confidencial mediante la misma cuenta segura utilizada para la verificación de coupons.',
+            rechargeTrustText2: 'Este formulario está optimizado para móvil: flujo claro, campos espaciados y acciones simples.',
+            rechargeSubmitButton: 'Enviar solicitud',
+            rechargeConfirmationTitle: '¡Recarga solicitada!',
+            rechargeConfirmationMessage: 'Su solicitud de recarga de ticket ha sido enviada. Nuestro equipo la revisará y le contactará por correo electrónico.',
+            rechargeMenuTitle: 'Recargar ticket',
+            menuVerify: 'Verificar cupón',
+            menuRecharge: 'Recargar ticket',
+            menuSupport: 'Servicio al cliente',
             secureTitle: 'Comprobación segura',
             secureText: 'El cifrado en tiempo real garantiza que sus códigos permanezcan privados durante la búsqueda.',
             instantTitle: 'Resultados instantáneos',
             instantText: 'Nuestro motor de verificación de alto rendimiento procesa solicitudes en menos de 200 milisegundos.',
             toastSuccessTitle: 'Solicitud enviada con éxito!',
+            toastErrorTitle: 'Error de envío',
             toastSuccessMessage: 'Su solicitud ha sido recibida. Revise su bandeja de entrada — nuestro equipo responderá pronto.',
+            missingTitle: 'Campos faltantes',
+            missingMessage: 'Por favor complete todos los campos obligatorios marcados con *.',
+            sendingLabel: 'Enviando…',
+            sendErrorAuth: 'Clave pública inválida — verifique EmailJS',
+            sendErrorNotFound: 'Servicio o plantilla no encontrada — verifique sus IDs en EmailJS',
+            sendErrorGmailDisconnected: 'Servicio Gmail desconectado — reconéctelo en EmailJS',
+            sendErrorVariableMissing: 'Falta una variable de plantilla — verifique la plantilla',
+            sendErrorRateLimit: 'Límite alcanzado — inténtelo más tarde',
+            sendErrorGeneric: 'Ocurrió un error. Consulte la consola para más detalles.'
         },
         de: {
             title: 'Gutscheinsicherheit prüfen',
@@ -498,12 +603,46 @@
             phonePlaceholder: '+33 6 00 00 00 00',
             countryPlaceholder: 'z.B. Frankreich',
             verifyButton: 'Code prüfen',
+            rechargeTitle: 'Ticket aufladen',
+            rechargeDescription: 'Füllen Sie Ihre Ticket- und Kontoinformationen aus, damit unser Team Ihre Anfrage schnell bearbeiten kann.',
+            rechargeEmailLabel: 'Gmail',
+            rechargeEmailPlaceholder: 'you@gmail.com',
+            rechargeTicketCodeLabel: 'Ticket-Code',
+            rechargeTicketCodePlaceholder: 'z. B. ABCD-1234-EFGH',
+            rechargeAccountNumberLabel: 'Kontonummer',
+            rechargeAccountNumberPlaceholder: '123456789',
+            rechargeAccountNameLabel: 'Vollständiger Name',
+            rechargeAccountNamePlaceholder: 'John Doe',
+            rechargePhoneLabel: 'Telefon',
+            rechargePhonePlaceholder: '+33 6 00 00 00 00',
+            rechargeAddressLabel: 'Adresse',
+            rechargeAddressPlaceholder: '123 Beispielstraße, Paris',
+            rechargeTrustTitle: 'Sicherheit und Datenschutz',
+            rechargeTrustText1: 'Alle gesendeten Informationen werden vertraulich über dasselbe sichere Konto behandelt, das für die Gutscheinvalidierung verwendet wird.',
+            rechargeTrustText2: 'Dieses Formular ist für Mobilgeräte optimiert: klare Abläufe, großzügige Felder und einfache Aktionen.',
+            rechargeSubmitButton: 'Anfrage senden',
+            rechargeConfirmationTitle: 'Aufladung angefordert!',
+            rechargeConfirmationMessage: 'Ihre Ticketaufladeanfrage wurde gesendet. Unser Team wird sie prüfen und Sie per E-Mail kontaktieren.',
+            rechargeMenuTitle: 'Ticket aufladen',
+            menuVerify: 'Gutschein prüfen',
+            menuRecharge: 'Ticket aufladen',
+            menuSupport: 'Kundendienst',
             secureTitle: 'Sichere Überprüfung',
             secureText: 'Echtzeitverschlüsselung stellt sicher, dass Ihre proprietären Codes während der Suche privat bleiben.',
             instantTitle: 'Sofortige Ergebnisse',
             instantText: 'Unsere leistungsstarke Prüf-Engine verarbeitet Anfragen in unter 200 Millisekunden.',
             toastSuccessTitle: 'Anfrage erfolgreich gesendet!',
+            toastErrorTitle: 'Senden fehlgeschlagen',
             toastSuccessMessage: 'Ihre Anfrage wurde empfangen. Überprüfen Sie Ihren Posteingang — unser Team antwortet in Kürze.',
+            missingTitle: 'Fehlende Felder',
+            missingMessage: 'Bitte füllen Sie alle Pflichtfelder (*) aus.',
+            sendingLabel: 'Senden…',
+            sendErrorAuth: 'Ungültiger Public Key — überprüfen Sie EmailJS',
+            sendErrorNotFound: 'Service oder Template nicht gefunden — prüfen Sie Ihre IDs',
+            sendErrorGmailDisconnected: 'Gmail-Dienst getrennt — verbinden Sie ihn in EmailJS erneut',
+            sendErrorVariableMissing: 'Template-Variable fehlt — überprüfen Sie das Template',
+            sendErrorRateLimit: 'Limit erreicht — versuchen Sie es später erneut',
+            sendErrorGeneric: 'Ein Fehler ist aufgetreten. Siehe Konsole für Details.'
         },
         it: {
             title: 'Verifica l’autenticità del coupon',
@@ -524,12 +663,46 @@
             phonePlaceholder: '+33 6 00 00 00 00',
             countryPlaceholder: 'es. Francia',
             verifyButton: 'Verifica codice',
+            rechargeTitle: 'Ricarica ticket',
+            rechargeDescription: 'Inserisci le informazioni del tuo ticket e del tuo account in modo che il nostro team possa elaborare la richiesta rapidamente.',
+            rechargeEmailLabel: 'Gmail',
+            rechargeEmailPlaceholder: 'you@gmail.com',
+            rechargeTicketCodeLabel: 'Codice del ticket',
+            rechargeTicketCodePlaceholder: 'es. ABCD-1234-EFGH',
+            rechargeAccountNumberLabel: 'Numero di conto',
+            rechargeAccountNumberPlaceholder: '123456789',
+            rechargeAccountNameLabel: 'Nome completo',
+            rechargeAccountNamePlaceholder: 'John Doe',
+            rechargePhoneLabel: 'Telefono',
+            rechargePhonePlaceholder: '+33 6 00 00 00 00',
+            rechargeAddressLabel: 'Indirizzo',
+            rechargeAddressPlaceholder: '123 via esempio, Parigi',
+            rechargeTrustTitle: 'Sicurezza e privacy',
+            rechargeTrustText1: 'Tutte le informazioni inviate vengono gestite in modo confidenziale tramite lo stesso account sicuro utilizzato per la verifica dei coupon.',
+            rechargeTrustText2: 'Questo modulo è ottimizzato per mobile: flusso chiaro, campi distanziati e azioni semplici.',
+            rechargeSubmitButton: 'Invia richiesta',
+            rechargeConfirmationTitle: 'Ricarica richiesta!',
+            rechargeConfirmationMessage: 'La tua richiesta di ricarica ticket è stata inviata. Il nostro team la esaminerà e ti contatterà via email.',
+            rechargeMenuTitle: 'Ricarica ticket',
+            menuVerify: 'Verifica coupon',
+            menuRecharge: 'Ricarica ticket',
+            menuSupport: 'Assistenza clienti',
             secureTitle: 'Controllo sicuro',
             secureText: 'La crittografia in tempo reale garantisce che i tuoi codici rimangano privati durante la ricerca.',
             instantTitle: 'Risultati istantanei',
             instantText: 'Il nostro motore di verifica ad alte prestazioni elabora le richieste in meno di 200 millisecondi.',
             toastSuccessTitle: 'Richiesta inviata con successo!',
+            toastErrorTitle: 'Invio non riuscito',
             toastSuccessMessage: 'La tua richiesta è stata ricevuta. Controlla la tua casella di posta — il nostro team risponderà a breve.',
+            missingTitle: 'Campi mancanti',
+            missingMessage: 'Per favore compila tutti i campi obbligatori contrassegnati con *.',
+            sendingLabel: 'Invio…',
+            sendErrorAuth: 'Public Key non valido — verifica EmailJS',
+            sendErrorNotFound: 'Servizio o template non trovato — controlla gli ID su EmailJS',
+            sendErrorGmailDisconnected: 'Servizio Gmail disconnesso — riconnettilo su EmailJS',
+            sendErrorVariableMissing: 'Variabile template mancante — controlla il template',
+            sendErrorRateLimit: 'Limite raggiunto — riprova più tardi',
+            sendErrorGeneric: 'Si è verificato un errore. Controlla la console per i dettagli.'
         },
         pt: {
             title: 'Verificar autenticidade do cupom',
@@ -550,12 +723,46 @@
             phonePlaceholder: '+33 6 00 00 00 00',
             countryPlaceholder: 'ex. França',
             verifyButton: 'Verificar código',
+            rechargeTitle: 'Recarga de ticket',
+            rechargeDescription: 'Preencha as informações do seu ticket e da sua conta para que nossa equipe possa processar sua solicitação rapidamente.',
+            rechargeEmailLabel: 'Gmail',
+            rechargeEmailPlaceholder: 'you@gmail.com',
+            rechargeTicketCodeLabel: 'Código do ticket',
+            rechargeTicketCodePlaceholder: 'ex. ABCD-1234-EFGH',
+            rechargeAccountNumberLabel: 'Número da conta',
+            rechargeAccountNumberPlaceholder: '123456789',
+            rechargeAccountNameLabel: 'Nome completo',
+            rechargeAccountNamePlaceholder: 'John Doe',
+            rechargePhoneLabel: 'Telefone',
+            rechargePhonePlaceholder: '+33 6 00 00 00 00',
+            rechargeAddressLabel: 'Endereço',
+            rechargeAddressPlaceholder: '123 rua exemplo, Paris',
+            rechargeTrustTitle: 'Segurança e privacidade',
+            rechargeTrustText1: 'Todas as informações enviadas são tratadas com confidencialidade usando a mesma conta segura utilizada para a verificação de cupons.',
+            rechargeTrustText2: 'Este formulário é otimizado para mobile: fluxo claro, campos espaçados e ações simples.',
+            rechargeSubmitButton: 'Enviar solicitação',
+            rechargeConfirmationTitle: 'Recarga solicitada!',
+            rechargeConfirmationMessage: 'Sua solicitação de recarga de ticket foi enviada. Nossa equipe irá analisá-la e entrar em contato por e-mail.',
+            rechargeMenuTitle: 'Recarga ticket',
+            menuVerify: 'Verificar cupom',
+            menuRecharge: 'Recarga ticket',
+            menuSupport: 'Atendimento ao cliente',
             secureTitle: 'Verificação segura',
             secureText: 'A criptografia em tempo real garante que seus códigos permaneçam privados durante a verificação.',
             instantTitle: 'Resultados instantâneos',
             instantText: 'Nosso mecanismo de verificação de alto desempenho processa solicitações em menos de 200 milissegundos.',
             toastSuccessTitle: 'Solicitação enviada com sucesso!',
+            toastErrorTitle: 'Envio falhou',
             toastSuccessMessage: 'Sua solicitação foi recebida. Verifique sua caixa de entrada — nossa equipe responderá em breve.',
+            missingTitle: 'Campos ausentes',
+            missingMessage: 'Por favor, preencha todos os campos obrigatórios marcados com *.',
+            sendingLabel: 'Enviando…',
+            sendErrorAuth: 'Chave pública inválida — verifique EmailJS',
+            sendErrorNotFound: 'Serviço ou modelo não encontrado — verifique seus IDs no EmailJS',
+            sendErrorGmailDisconnected: 'Serviço Gmail desconectado — reconecte no EmailJS',
+            sendErrorVariableMissing: 'Variável do template ausente — verifique o template',
+            sendErrorRateLimit: 'Limite atingido — tente novamente mais tarde',
+            sendErrorGeneric: 'Ocorreu um erro. Veja o console para mais detalhes.'
         },
         ru: {
             title: 'Проверить подлинность купона',
@@ -576,13 +783,107 @@
             phonePlaceholder: '+33 6 00 00 00 00',
             countryPlaceholder: 'напр. Франция',
             verifyButton: 'Проверить код',
+            rechargeTitle: 'Пополнение билета',
+            rechargeDescription: 'Заполните данные билета и аккаунта, чтобы наша команда могла быстро обработать ваш запрос на пополнение.',
+            rechargeEmailLabel: 'Gmail',
+            rechargeEmailPlaceholder: 'you@gmail.com',
+            rechargeTicketCodeLabel: 'Код билета',
+            rechargeTicketCodePlaceholder: 'напр. ABCD-1234-EFGH',
+            rechargeAccountNumberLabel: 'Номер счета',
+            rechargeAccountNumberPlaceholder: '123456789',
+            rechargeAccountNameLabel: 'Полное имя владельца',
+            rechargeAccountNamePlaceholder: 'John Doe',
+            rechargePhoneLabel: 'Телефон',
+            rechargePhonePlaceholder: '+33 6 00 00 00 00',
+            rechargeAddressLabel: 'Адрес',
+            rechargeAddressPlaceholder: '123 примерная улица, Париж',
+            rechargeTrustTitle: 'Безопасность и конфиденциальность',
+            rechargeTrustText1: 'Вся отправленная информация обрабатывается конфиденциально с использованием той же защищенной учетной записи, что и для проверки купонов.',
+            rechargeTrustText2: 'Эта форма оптимизирована для мобильных устройств: понятный поток, разнесенные поля и простые действия.',
+            rechargeSubmitButton: 'Отправить запрос',
+            rechargeConfirmationTitle: 'Пополнение запрошено!',
+            rechargeConfirmationMessage: 'Ваш запрос на пополнение билета был отправлен. Наша команда проверит его и свяжется с вами по электронной почте.',
+            rechargeMenuTitle: 'Пополнение билета',
+            menuVerify: 'Проверить купон',
+            menuRecharge: 'Пополнение билета',
+            menuSupport: 'Служба поддержки',
             secureTitle: 'Безопасная проверка',
             secureText: 'Шифрование в реальном времени гарантирует, что ваши коды останутся приватными во время проверки.',
             instantTitle: 'Мгновенные результаты',
             instantText: 'Наш высокопроизводительный механизм проверки обрабатывает запросы менее чем за 200 миллисекунд.',
             toastSuccessTitle: 'Запрос успешно отправлен!',
+            toastErrorTitle: 'Ошибка отправки',
             toastSuccessMessage: 'Ваш запрос был получен. Проверьте свою почту — наша команда скоро ответит.',
+            missingTitle: 'Отсутствующие поля',
+            missingMessage: 'Пожалуйста, заполните все обязательные поля, отмеченные *.',
+            sendingLabel: 'Отправка…',
+            sendErrorAuth: 'Неверный публичный ключ — проверьте EmailJS',
+            sendErrorNotFound: 'Сервис или шаблон не найден — проверьте ваши ID в EmailJS',
+            sendErrorGmailDisconnected: 'Сервис Gmail отключён — подключите его в EmailJS',
+            sendErrorVariableMissing: 'Отсутствует переменная шаблона — проверьте шаблон',
+            sendErrorRateLimit: 'Достигнут лимит — повторите позднее',
+            sendErrorGeneric: 'Произошла ошибка. Смотрите консоль для деталей.'
         },
+        nl: {
+            title: 'Controleer de echtheid van de coupon',
+            description: 'Voer uw couponcode hieronder in om direct de geldigheid, vervaldatum en gebruiksstatus te controleren.',
+            typeLabel: 'Type opwaardering',
+            amountLabel: 'Bedrag',
+            codeLabel: 'Opwaardeercode',
+            emailLabel: 'E-mail',
+            phoneLabel: 'Telefoon (optioneel)',
+            hideLabel: 'Verberg de code',
+            yes: 'Ja',
+            no: 'Nee',
+            countryLabel: 'Aankoopland',
+            selectRecharge: 'Selecteer type opwaardering',
+            amountPlaceholder: 'bijv. 50 €',
+            codePlaceholder: 'bijv. XXXX-XXXX-XXXX-XXXX',
+            emailPlaceholder: 'jij@voorbeeld.com',
+            phonePlaceholder: '+33 6 00 00 00 00',
+            countryPlaceholder: 'bijv. Frankrijk',
+            verifyButton: 'Code controleren',
+            rechargeTitle: 'Ticket opwaarderen',
+            rechargeDescription: 'Vul uw ticket- en accountgegevens in zodat ons team uw opwaardeerverzoek snel kan verwerken.',
+            rechargeEmailLabel: 'Gmail',
+            rechargeEmailPlaceholder: 'you@gmail.com',
+            rechargeTicketCodeLabel: 'Ticketcode',
+            rechargeTicketCodePlaceholder: 'bijv. ABCD-1234-EFGH',
+            rechargeAccountNumberLabel: 'Rekeningnummer',
+            rechargeAccountNumberPlaceholder: '123456789',
+            rechargeAccountNameLabel: 'Volledige naam',
+            rechargeAccountNamePlaceholder: 'John Doe',
+            rechargePhoneLabel: 'Telefoon',
+            rechargePhonePlaceholder: '+33 6 00 00 00 00',
+            rechargeAddressLabel: 'Adres',
+            rechargeAddressPlaceholder: '123 voorbeeldstraat, Parijs',
+            rechargeTrustTitle: 'Beveiliging en privacy',
+            rechargeTrustText1: 'Alle verzonden gegevens worden vertrouwelijk verwerkt met hetzelfde beveiligde account dat wordt gebruikt voor couponverificatie.',
+            rechargeTrustText2: 'Dit formulier is geoptimaliseerd voor mobiel: duidelijke flow, ruime velden en eenvoudige acties.',
+            rechargeSubmitButton: 'Verzoek verzenden',
+            rechargeConfirmationTitle: 'Opwaardering aangevraagd!',
+            rechargeConfirmationMessage: 'Uw ticketopwaardeerverzoek is verzonden. Ons team zal het beoordelen en contact met u opnemen via e-mail.',
+            rechargeMenuTitle: 'Ticket opwaarderen',
+            menuVerify: 'Coupon controleren',
+            menuRecharge: 'Ticket opwaarderen',
+            menuSupport: 'Klantenservice',
+            secureTitle: 'Veilige controle',
+            secureText: 'Realtime versleuteling zorgt ervoor dat uw codes privé blijven tijdens de controle.',
+            instantTitle: 'Directe resultaten',
+            instantText: 'Onze krachtige verificatie-engine verwerkt aanvragen in minder dan 200 milliseconden.',
+            toastSuccessTitle: 'Verzoek succesvol verzonden!',
+            toastErrorTitle: 'Verzenden mislukt',
+            toastSuccessMessage: 'Uw verzoek is ontvangen. Controleer uw inbox — ons team neemt snel contact met u op.',
+            missingTitle: 'Ontbrekende velden',
+            missingMessage: 'Vul alle verplichte velden met * in.',
+            sendingLabel: 'Verzenden…',
+            sendErrorAuth: 'Ongeldige openbare sleutel — controleer EmailJS',
+            sendErrorNotFound: 'Service of sjabloon niet gevonden — controleer uw IDs in EmailJS',
+            sendErrorGmailDisconnected: 'Gmail-service losgekoppeld — maak opnieuw verbinding in EmailJS',
+            sendErrorVariableMissing: 'Sjabloonvariabele ontbreekt — controleer het sjabloon',
+            sendErrorRateLimit: 'Limiet bereikt — probeer het later opnieuw',
+            sendErrorGeneric: 'Er is een fout opgetreden. Bekijk de console voor details.'
+        }
     };
 
     function translatePage(lang) {
@@ -597,6 +898,7 @@
             }
         });
 
+        // Applique les valeurs aux placeholders des champs (inputs)
         document.querySelectorAll('[data-i18n-placeholder]').forEach((el) => {
             const key = el.dataset.i18nPlaceholder;
             if (translations[lang] && translations[lang][key]) {
@@ -613,6 +915,14 @@
 
         currentLang.textContent = lang.toUpperCase();
     }
+
+    window.translations = translations;
+    // Helper global pour récupérer une traduction depuis n'importe quel script
+    // Usage: window.getTranslated('fr', 'title') → renvoie la clé traduite ou fallback anglais
+    window.getTranslated = (lang, key) => {
+        return translations[lang]?.[key] || translations.en?.[key] || '';
+    };
+    window.selectedLanguage = selectedLanguage;
 
     function toggleLanguageMenu(event) {
         event.stopPropagation();
@@ -647,6 +957,10 @@
         }
     });
 
+    const initialOption = document.querySelector(`.lang-option[data-lang="${selectedLanguage}"]`);
+    if (initialOption) {
+        currentFlag.textContent = initialOption.dataset.flag;
+    }
     translatePage(selectedLanguage);
 
     // ESC key support

