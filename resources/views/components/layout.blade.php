@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>VerifyPro - Coupon Verification</title>
+    <title>Ticket Authentificator</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
@@ -221,7 +221,7 @@
     <header class="fixed top-0 w-full z-50 bg-surface dark:bg-surface-dim shadow-sm dark:shadow-none flex items-center justify-between px-md h-14 w-full">
         <div class="flex items-center gap-sm">
             <span class="material-symbols-outlined text-primary dark:text-primary-fixed-dim" data-icon="verified">verified</span>
-            <h1 class="text-headline-md font-headline-md text-primary dark:text-primary-fixed-dim">VerifyPro</h1>
+            <h1 class="text-headline-md font-headline-md text-primary dark:text-primary-fixed-dim">Authentificator</h1>
         </div>
         <div class="relative">
 
